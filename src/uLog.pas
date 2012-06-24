@@ -35,13 +35,15 @@ end;
 procedure LogPrint(msg : string);
 var
     f : textfile;
-    s : string;
+    s, fname : string;
 begin
     s := TimeToStr(now);
     Delete(s,Length(s)-2, 3);
     s := s + ' ' + msg;
-    AssignFile(f, 'd:\log.txt');
-    Append(f);
+    fname := AppPath + 'logs\log.txt';
+    AssignFile(f, fname);
+    if FileExists(fname) then
+    Append(f) else Rewrite(f);
     Writeln(f, s);
     CloseFile(f);
 
